@@ -1,5 +1,7 @@
 import {
   Form,
+  Link,
+  Outlet,
   Scripts,
   ScrollRestoration,
   isRouteErrorResponse,
@@ -7,8 +9,19 @@ import {
 import type { Route } from "./+types/root";
 
 import appStylesHref from "./app.css?url";
+import { getContacts } from "./data";
 
-export default function App() {
+export async function clientLoader() {
+  const contacts = await getContacts();
+
+  return { contacts };
+}
+
+export default function App({ loaderData }) {
+  const { contacts } = loaderData;
+
+  console.log(contacts);
+
   return (
     <>
       <div id="sidebar">
@@ -30,14 +43,26 @@ export default function App() {
         </div>
         <nav>
           <ul>
-            <li>
-              <a href={`/contacts/1`}>Your Name</a>
-            </li>
-            <li>
-              <a href={`/contacts/2`}>Your Friend</a>
-            </li>
+            {contacts.length ? (
+              contacts?.map((contact) => (
+                <li>
+                  <Link to={`contacts/${contact.id}`}>
+                    {contact.first || contact.last
+                      ? `${contact.first} ${contact.last}`
+                      : null}
+                  </Link>
+                </li>
+              ))
+            ) : (
+              <p>
+                <i>No contacts</i>
+              </p>
+            )}
           </ul>
         </nav>
+      </div>
+      <div id="detail">
+        <Outlet />
       </div>
     </>
   );
