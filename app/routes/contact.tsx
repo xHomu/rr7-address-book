@@ -51,7 +51,7 @@ export default function Contact({ loaderData }: Route.ComponentProps) {
           </Form>
 
           <Form
-            action="destroy"
+            action="delete"
             method="post"
             onSubmit={(event) => {
               const response = confirm(
