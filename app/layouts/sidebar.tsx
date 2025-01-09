@@ -1,7 +1,7 @@
 import { Form, Link, Outlet } from "react-router";
 import type { Route } from "./+types/sidebar";
 
-import { getContacts } from "../data";
+import { createEmptyContact, getContacts } from "../data";
 
 export async function loader() {
   const contacts = await getContacts();
@@ -35,23 +35,28 @@ export default function App({ loaderData }: Route.ComponentProps) {
           </Form>
         </div>
         <nav>
-          <ul>
-            {contacts.length ? (
-              contacts.map((contact) => (
+          {contacts.length ? (
+            <ul>
+              {contacts.map((contact) => (
                 <li key={contact.id}>
                   <Link to={`contacts/${contact.id}`}>
-                    {contact.first || contact.last
-                      ? `${contact.first} ${contact.last}`
-                      : null}
+                    {contact.first || contact.last ? (
+                      <>
+                        {contact.first} {contact.last}
+                      </>
+                    ) : (
+                      <i>No Name</i>
+                    )}
+                    {contact.favorite ? <span>★</span> : null}
                   </Link>
                 </li>
-              ))
-            ) : (
-              <p>
-                <i>No contacts</i>
-              </p>
-            )}
-          </ul>
+              ))}
+            </ul>
+          ) : (
+            <p>
+              <i>No contacts</i>
+            </p>
+          )}
         </nav>
       </div>
       <div id="detail">
