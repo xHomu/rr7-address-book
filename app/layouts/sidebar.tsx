@@ -3,7 +3,7 @@ import type { Route } from "./+types/sidebar";
 
 import { getContacts } from "../data";
 
-export async function clientLoader() {
+export async function loader() {
   const contacts = await getContacts();
 
   return { contacts };
