@@ -43,7 +43,7 @@ export default function App({ loaderData }: Route.ComponentProps) {
           <ul>
             {contacts.length ? (
               contacts.map((contact) => (
-                <li>
+                <li key={contact.id}>
                   <Link to={`contacts/${contact.id}`}>
                     {contact.first || contact.last
                       ? `${contact.first} ${contact.last}`
@@ -114,5 +114,14 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
         </pre>
       )}
     </main>
+  );
+}
+
+export function HydrateFallback() {
+  return (
+    <div id="loading-splash">
+      <div id="loading-splash-spinner" />
+      <p>Loading, please wait...</p>
+    </div>
   );
 }
