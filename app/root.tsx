@@ -17,10 +17,8 @@ export async function clientLoader() {
   return { contacts };
 }
 
-export default function App({ loaderData }) {
+export default function App({ loaderData }: Route.ComponentProps) {
   const { contacts } = loaderData;
-
-  console.log(contacts);
 
   return (
     <>
@@ -44,7 +42,7 @@ export default function App({ loaderData }) {
         <nav>
           <ul>
             {contacts.length ? (
-              contacts?.map((contact) => (
+              contacts.map((contact) => (
                 <li>
                   <Link to={`contacts/${contact.id}`}>
                     {contact.first || contact.last
